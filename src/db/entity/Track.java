@@ -5,6 +5,7 @@ public class Track {
 	private String username;
 	private String points;
 	private String timestamp;
+	private String timestamp_e;
 
 	public int getId() {
 		return id;
@@ -38,10 +39,21 @@ public class Track {
 		this.timestamp = timestamp;
 	}
 
+	public String getTimestamp_e() {
+		return timestamp_e;
+	}
+
+	public void setTimestamp_e(String timestamp_e) {
+		this.timestamp_e = timestamp_e;
+	}
+
 	@Override
 	public String toString() {
-		return "Track [id=" + id + ", username=" + username + ", points=" + points + ", timestamp=" + timestamp + "]";
+		return "Track [id=" + id + ", username=" + username + ", points=" + points + ", timestamp=" + timestamp
+				+ ", timestamp_e=" + timestamp_e + "]";
 	}
+
+	
 
 	
 }

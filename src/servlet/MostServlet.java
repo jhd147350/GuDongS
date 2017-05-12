@@ -13,19 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import db.dao.TrackDao;
-import db.entity.Track;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import db.dao.GameDao;
+import db.entity.Game;
 
 /**
- * Servlet implementation class TrackServlet
+ * Servlet implementation class MostServlet
  */
-@WebServlet("/track")
-public class TrackServlet extends HttpServlet {
+@WebServlet("/most")
+public class MostServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    
+   
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -33,35 +30,30 @@ public class TrackServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");	
+		
 		String str_action =request.getParameter("action");
 		int action=Integer.parseInt(str_action);
 		switch (action) {
-		case AllActions.GET_TRACK:
-			String username=request.getParameter("username");
-			getTrack(username, response);
+		case AllActions.GET_GAME:
+			try {
+				getGame(response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
-		case AllActions.ADD_TRACK:
-			break;
+		
 		}
 	}
 	
-	public void getTrack(String username,HttpServletResponse response){
-		TrackDao trackDao =new TrackDao();
-		try {
-			List<Track> data = trackDao.searchByUser(username);
-			Gson gson=new Gson();
-			String json = gson.toJson(data);
-			PrintWriter pw = response.getWriter();
-			pw.print(json);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	
+	public void getGame(HttpServletResponse response) throws SQLException, IOException{
+		GameDao gameDao=new GameDao();
+		List<Game> games = gameDao.getGame();
+		PrintWriter writer = response.getWriter();
+		Gson g=new Gson();
+		String json = g.toJson(games);
+		writer.println(json);
 	}
-
 
 }

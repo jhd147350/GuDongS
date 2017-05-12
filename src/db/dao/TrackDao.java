@@ -27,6 +27,7 @@ public class TrackDao extends BasicDao{
 				t.setUsername(username);
 				t.setTimestamp(rs.getString(3));
 				t.setPoints(rs.getString(4));
+				t.setTimestamp_e(rs.getString(5));
 				
 				list.add(t);
 			}
