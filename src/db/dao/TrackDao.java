@@ -37,13 +37,15 @@ public class TrackDao extends BasicDao{
 	}
 	
 	public boolean addTracks(Track track){
-		String sql="insert into "+tableName+"(username,timestamp,points) VALUES(?,?,?)";
+		String sql="insert into "+tableName+"(username,timestamp,points,timestamp_e,distance) VALUES(?,?,?,?,?)";
 		try {
 			con=DBConnect.getConnection();
 			pstm = con.prepareStatement(sql);
 			pstm.setString( 1, track.getUsername());
 			pstm.setString(2, track.getTimestamp());
 			pstm.setString(3,track.getPoints());
+			pstm.setString(4, track.getTimestamp_e());
+			pstm.setString(5, track.getDistance());
 			pstm.execute();
 			close();
 		} catch (SQLException e) {

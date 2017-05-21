@@ -76,6 +76,7 @@ public class SignServlet extends HttpServlet {
 			System.out.println("-------------------------sign up "+isSuc+"---------------");
 			PrintWriter pw = response.getWriter();
 			pw.println(jo.toString());
+			pw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,6 +102,7 @@ public class SignServlet extends HttpServlet {
 			System.out.println("-------------------------login "+isSuc+"---------------");
 			PrintWriter pw = response.getWriter();
 			pw.println(jo.toString());
+			pw.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

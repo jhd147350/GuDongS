@@ -10,8 +10,8 @@ import db.entity.Game;
 public class GameDao extends BasicDao{
 	
 	public GameDao() {
-		// TODO Auto-generated constructor stub
-		tableName="game";
+		//game_join 是一个视图，方便查询比赛信息时，附带统计参加比赛的人数
+		tableName="game_join";
 	}
 	
 	public List<Game> getGame() throws SQLException{
@@ -29,6 +29,7 @@ public class GameDao extends BasicDao{
 			game.setTag(rs.getString(4));
 			game.setImage(rs.getString(5));
 			game.setDetails(rs.getString(6));
+			game.setPeoplenum(rs.getInt(7));
 			games.add(game);
 		}
 		close();
