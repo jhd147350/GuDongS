@@ -13,6 +13,7 @@ public interface AllActions {
 	
 	public static final int GET_GAME = 7;
 	public static final int JOIN_NUM = 8;
+	public static final int GET_MY_GAME = 9;
 	//public static final int ADD_TRACK = 5;
 
 }

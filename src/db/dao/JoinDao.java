@@ -27,15 +27,22 @@ public class JoinDao extends BasicDao {
 		return i;
 	}
 
-	public boolean joinGame(int game_id, String username) throws SQLException {
-		String sql = "insert into " + tableName + "(game_id,username) VALUES(?,?)";
+	public boolean joinGame(int game_id, String username) {
+		String sql = "insert into `" + tableName + "` (game_id,username) VALUES(?,?)";
 		con = DBConnect.getConnection();
-		pstm = con.prepareStatement(sql);
-		pstm.setInt(1, game_id);
-		pstm.setString(2, username);
-		boolean suc = pstm.execute();
-		close();
-		return suc;
+		try {
+			pstm = con.prepareStatement(sql);
+			pstm.setInt(1, game_id);
+			pstm.setString(2, username);
+			pstm.execute();
+			close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 
 	}
 

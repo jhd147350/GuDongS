@@ -1,5 +1,7 @@
 package db.entity;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +12,14 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.mysql.fabric.xmlrpc.base.Array;
 
+import db.DBConnect;
 import db.dao.TrackDao;
 
 public class TestDB {
 
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
-		TrackDao trackDao=new TrackDao();
+		/*TrackDao trackDao=new TrackDao();
 		//List<Track> searchByUser = (List<Track>) trackDao.searchByUser("111");
 		//System.out.println(searchByUser.toString());
 		Track track=new Track();
@@ -46,8 +49,21 @@ public class TestDB {
 		//JsonArray asJsonArray = jp.parse(json).getAsJsonArray();
 		List<Track> fromJson = gson.fromJson(json, new TypeToken<List<Track>>() {  
         }.getType());
-		System.out.println(fromJson.toString());
+		System.out.println(fromJson.toString());*/
+		System.out.println(joinGame(11,"jhdd"));
 		
+
+	}
+	
+	public static boolean joinGame(int game_id, String username) throws SQLException {
+		String sql = "insert into `join` (game_id,username) VALUES(?,?)";
+		Connection connection = DBConnect.getConnection();
+		PreparedStatement pstm = connection.prepareStatement(sql);
+		pstm.setInt(1, game_id);
+		pstm.setString(2, username);
+		
+		
+		return pstm.execute();
 
 	}
 

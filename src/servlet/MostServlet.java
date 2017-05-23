@@ -15,7 +15,9 @@ import com.google.gson.Gson;
 
 import db.dao.GameDao;
 import db.dao.JoinDao;
+import db.dao.MyGameDao;
 import db.entity.Game;
+import db.entity.MyGame;
 import net.sf.json.JSONObject;
 
 /**
@@ -45,18 +47,27 @@ public class MostServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
+		case AllActions.GET_MY_GAME:
+			try {
+				String username1 = request.getParameter("username");
+				getMyGame(username1,response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
 		case AllActions.JOIN:
-			int game_id=Integer.parseInt(request.getParameter("game_id"));
+			int game_id = Integer.parseInt(request.getParameter("game_id"));
 			String username = request.getParameter("username");
 			try {
-				joinGame(game_id,username,response);
+				joinGame(game_id, username, response);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
 		case AllActions.JOIN_NUM:
-			int game_id1=Integer.parseInt(request.getParameter("game_id"));
+			int game_id1 = Integer.parseInt(request.getParameter("game_id"));
 			try {
 				getJoinNum(game_id1, response);
 			} catch (SQLException e) {
@@ -78,30 +89,37 @@ public class MostServlet extends HttpServlet {
 		writer.close();
 	}
 
+	public void getMyGame(String username, HttpServletResponse response) throws SQLException, IOException {
+		MyGameDao gameDao = new MyGameDao();
+		List<MyGame> games = gameDao.getGame(username);
+		PrintWriter writer = response.getWriter();
+		Gson g = new Gson();
+		String json = g.toJson(games);
+		writer.println(json);
+		writer.close();
+	}
+
 	public void joinGame(int game_id, String username, HttpServletResponse response) throws SQLException, IOException {
 		JoinDao joinDao = new JoinDao();
 		boolean isSuc = joinDao.joinGame(game_id, username);
-		JSONObject jo=new JSONObject();
+		JSONObject jo = new JSONObject();
 		jo.put("isSuc", isSuc);
-		System.out.println("-------------------------joinGame : "+isSuc+"---------------");
+		System.out.println("-------------------------joinGame : " + isSuc + "---------------");
 		PrintWriter pw = response.getWriter();
 		pw.println(jo.toString());
 		pw.close();
 	}
-	
-	public void getJoinNum(int game_id,HttpServletResponse response) throws SQLException, IOException{
-		JoinDao joinDAo=new JoinDao();
-		int num=joinDAo.getPeopleNum(game_id);
-		JSONObject jo=new JSONObject();
+
+	public void getJoinNum(int game_id, HttpServletResponse response) throws SQLException, IOException {
+		JoinDao joinDAo = new JoinDao();
+		int num = joinDAo.getPeopleNum(game_id);
+		JSONObject jo = new JSONObject();
 		jo.put("num", num);
-		System.out.println("-------------------------getJoinNum : "+num+"---------------");
+		System.out.println("-------------------------getJoinNum : " + num + "---------------");
 		PrintWriter pw = response.getWriter();
 		pw.println(jo.toString());
 		pw.close();
-		
-		
+
 	}
-	
-	
 
 }
